@@ -5,131 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Poke Api</title>
-    <style>
-      :root {
-      }
-      html {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-size: 62.5%;
-        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      }
-      main {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 2rem;
-      }
-      .pokemon__card {
-        display: grid;
-        grid-template-areas:
-          "image image image"
-          "title title title"
-          "type type type"
-          "desc desc desc"
-          "stats stats stats";
-        border: 1px solid silver;
-        border-radius: 1rem;
-        width: 30rem;
-        height: 40rem;
-        padding: 0;
-        margin: 0;
-        z-index: 10;
-        background: linear-gradient(white 0%, black 100%);
-      }
-      .pokemon__image {
-        background-color: white;
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        border-radius: 1rem 1rem 0 0;
-        grid-area: image;
-        border-bottom: 1px solid silver;
-      }
-      .pokemon__image img {
-        max-width: 30rem;
-        max-height: 15rem;
-        aspect-ratio: 3/3;
-        object-fit: contain;
-      }
-      .pokemon__name {
-        text-align: center;
-        font-size: 2rem;
-        grid-area: title;
-      }
-      .pokemon__type {
-        text-align: center;
-        grid-area: type;
-      }
-      .pokemon__stats {
-        padding: 0;
-        margin: 0;
-        display: grid;
-        background-color: aqua;
-        grid-area: stats;
-        grid-template-areas: "hp attack def";
-        border-radius: 1rem;
-      }
-      .pokemon__stats div {
-        display: flex;
-        z-index: 1;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: white;
-      }
-      .hp {
-        border-right: 1px solid silver;
-        grid-area: hp;
-        border-radius: 0 0 0 1rem;
-        box-sizing: border-box;
-        min-width: 10rem;
-        background: linear-gradient(rgb(174, 211, 174) 0%, rgb(18, 187, 18) 100%);
-      }
-      .attack {
-        border-right: 1px solid silver;
-        grid-area: attack;
-        box-sizing: border-box;
-        min-width: 10rem;
-
-        background: linear-gradient(rgb(221, 161, 161) 0%, rgb(189, 15, 15) 100%);
-      }
-      .def {
-        grid-area: def;
-        border-radius: 0 0 1rem 0;
-        box-sizing: border-box;
-        min-width: 10rem;
-        background: linear-gradient(rgb(131, 151, 206) 0%, rgb(19, 72, 219) 100%);
-      }
-      @keyframes animated {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-      .animated:hover::after {
-        content: "";
-        background: linear-gradient(45deg, white 0%, rgb(189, 15, 15) 50%, white 100%) repeat 0% 0% / 300% 100%;
-        position: absolute;
-        inset: -3px;
-        animation: animated 6s linear infinite;
-        z-index: -2;
-        border-radius: 1rem;
-        filter: blur(0.5rem);
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <header>
-      <button class="add">Add new pokemon!</button>
+    <header id="header">
+      <img class="add" id="logo" src="logo.png" alt="logo" />
+      <ul id="nav">
+        <li>Pokemons</li>
+        <li>Your collection</li>
+        <li>Shop</li>
+        <li>Instructions</li>
+      </ul>
     </header>
     <main></main>
     <footer></footer>

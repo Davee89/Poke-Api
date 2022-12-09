@@ -1,0 +1,218 @@
+:root {
+  --psychic: rgb(139, 66, 207);
+}
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body {
+  margin: 0 auto;
+  max-width: 1270px;
+  min-height: 100vh;
+  background: linear-gradient(silver 0%, gold 50%, rgb(190, 58, 58) 100%) no-repeat;
+}
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+#logo {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  mix-blend-mode: color-burn;
+}
+#logo:hover {
+}
+#nav {
+  text-transform: uppercase;
+  font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+  color: white;
+  text-shadow: 1px 1px 2px rgb(202, 6, 6);
+}
+#nav li {
+  list-style-type: none;
+}
+main {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.pokemon__card {
+  display: grid;
+  grid-template-areas:
+    "image image image"
+    "title title title"
+    "type type type"
+    "desc desc desc"
+    "stats stats stats";
+  border: 1px solid silver;
+  border-radius: 1rem;
+  width: 30rem;
+  height: 40rem;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+  background: linear-gradient(white 0%, rgb(221, 198, 198) 100%);
+}
+.pokemon__image {
+  background-color: white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem 1rem 0 0;
+  grid-area: image;
+  border-bottom: 1px solid silver;
+}
+.pokemon__image img {
+  max-width: 30rem;
+  max-height: 15rem;
+  aspect-ratio: 3/3;
+  object-fit: contain;
+}
+.pokemon__name {
+  text-align: center;
+  font-size: 2rem;
+  grid-area: title;
+}
+.pokemon__type {
+  text-align: center;
+  grid-area: type;
+}
+.pokemon__stats {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  background-color: aqua;
+  grid-area: stats;
+  grid-template-areas:
+    "hp attack def"
+    "sp-attack sp-def speed";
+  border-radius: 1rem;
+  grid-template-rows: 1fr 1fr;
+}
+.pokemon__stats div {
+  display: flex;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+}
+.hp {
+  border-right: 1px solid silver;
+  grid-area: hp;
+  box-sizing: border-box;
+  min-width: 10rem;
+  background: linear-gradient(rgb(174, 211, 174) 0%, rgb(18, 187, 18) 100%);
+}
+.attack {
+  border-right: 1px solid silver;
+  grid-area: attack;
+  box-sizing: border-box;
+  min-width: 10rem;
+
+  background: linear-gradient(rgb(221, 161, 161) 0%, rgb(189, 15, 15) 100%);
+}
+.def {
+  grid-area: def;
+  box-sizing: border-box;
+  min-width: 10rem;
+  background: linear-gradient(rgb(131, 151, 206) 0%, rgb(19, 72, 219) 100%);
+}
+.sp-attack {
+  border-right: 1px solid silver;
+  grid-area: sp-attack;
+  border-radius: 0 0 0 1rem;
+  box-sizing: border-box;
+  min-width: 10rem;
+  background: linear-gradient(rgb(211, 199, 218) 0%, rgb(85, 13, 153) 100%);
+}
+.sp-def {
+  border-right: 1px solid silver;
+  grid-area: sp-def;
+  box-sizing: border-box;
+  min-width: 10rem;
+  background: linear-gradient(rgb(182, 173, 155) 0%, rgb(53, 32, 8) 100%);
+}
+.speed {
+  grid-area: speed;
+  border-radius: 0 0 1rem 0;
+  box-sizing: border-box;
+  min-width: 10rem;
+  background: linear-gradient(rgb(196, 205, 230) 0%, rgb(209, 172, 6) 100%);
+}
+
+/* ! Animation ! */
+@keyframes animated {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.animated:hover::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  animation: animated 6s linear infinite;
+  z-index: -2;
+  border-radius: 1rem;
+  filter: blur(0.5rem);
+}
+
+/* ! COLOR OF POKEMON TYPE ! */
+.fire:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(189, 15, 15) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.water:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(45, 62, 214) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.psychic:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(86, 24, 185) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.normal:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(209, 202, 202) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.electric:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(224, 210, 7) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.grass:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(93, 236, 74) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.fighting:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(58, 9, 9) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.poison:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(31, 9, 61) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.ghost:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(17, 14, 14) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.dragon:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(155, 84, 3) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.bug:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(19, 78, 8) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.ground:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(66, 40, 10) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.rock:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(70, 65, 65) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
