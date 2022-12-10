@@ -46,8 +46,14 @@ const checkType = (type, card) => {
     case "rock":
       card.classList.add(`${type}`);
       break;
+    case "ice":
+      card.classList.add(`${type}`);
+      break;
+    case "fairy":
+      card.classList.add(`${type}`);
+      break;
     default:
-      console.log(error);
+      console.log(type);
   }
 };
 
@@ -73,7 +79,8 @@ const fetchNewPokemon = (id, place, info) => {
       </div>
       </div>`;
       console.log(data);
-      info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
+      if (info) info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
+
       place.appendChild(newPokemonCard);
       VanillaTilt.init(document.querySelectorAll(".pokemon__card")),
         {
@@ -82,6 +89,7 @@ const fetchNewPokemon = (id, place, info) => {
         };
     })
     .catch((error) => {
+      console.log(error);
       console.error(error);
     });
 };
@@ -99,11 +107,50 @@ buttonAdd.addEventListener("pointerleave", () => {
 
 // ! Unboxing pokemon ! //
 const basicBox = document.querySelector("#box-basic");
+const advancedBox = document.querySelector("#box-advanced");
+const legendaryBox = document.querySelector("#box-legendary");
 const openingContainer = document.querySelector(".box-opening");
 const messageInfo = document.querySelector(".info");
+const collectionAdd = document.querySelector("#add-to-collection");
+const sellPokemon = document.querySelector("#sell");
 
-basicBox.addEventListener("click", () => {
-  const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
-  const random = basicPokemons.at(Math.random() * basicPokemons.length);
-  fetchNewPokemon(random, openingContainer, messageInfo);
+let collection = [];
+
+const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
+
+const advancedPokemons = [2, 5, 8, 11, 12, 14, 15, 18, 17, 20, 22, 24, 26, 28, 30, 33, 36, 38, 40, 42, 44, 47, 49, 51, 53, 55, 57, 59, 61, 64, 67, 70, 73, 75, 78, 80, 82, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 106, 107, 110, 112, 113, 115, 117, 119, 121, 122, 124, 127, 128, 131, 134, 135, 136, 137, 138, 140, 143, 147];
+
+const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150];
+
+const unBox = (boxName) => {
+  const random = boxName.at(Math.random() * boxName.length);
+  if (!openingContainer.querySelector(".pokemon__card")) fetchNewPokemon(random, openingContainer, messageInfo);
+};
+
+advancedBox.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...advancedPokemons]));
+
+legendaryBox.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...basicPokemons, ...basicPokemons, ...advancedPokemons, ...advancedPokemons, ...legendaryPokemons]));
+
+// ! Adding to collection pokemon
+collectionAdd.addEventListener("click", (e) => {
+  e.preventDefault();
+  const pokemonCard = document.querySelector(".pokemon__card");
+  const pokemonName = document.querySelector(".pokemon__card h2").innerText.toLowerCase();
+  if (window.localStorage.getItem("userPokemonsCollection")) collection = JSON.parse(window.localStorage.getItem("userPokemonsCollection"));
+  collection.push(pokemonName);
+  window.localStorage.setItem("userPokemonsCollection", JSON.stringify(collection));
+  pokemonCard.remove();
+  messageInfo.innerText = "";
+});
+
+sellPokemon.addEventListener("click", (e) => {
+  e.preventDefault();
+  const pokemonCard = document.querySelector(".pokemon__card");
+  if (pokemonCard) {
+    if (window.localStorage.getItem("accountBalance")) accountBalance = JSON.parse(window.localStorage.getItem("accountBalance"));
+    accountBalance += 10;
+    pokemonCard.remove();
+    window.localStorage.setItem("accountBalance", accountBalance);
+    messageInfo.innerText = "";
+  }
 });

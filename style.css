@@ -186,11 +186,17 @@ body {
 .water:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(45, 62, 214) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
+.ice:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(118, 218, 243) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
 .psychic:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(86, 24, 185) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
 .normal:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(209, 202, 202) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+.fairy:hover::after {
+  background: linear-gradient(45deg, white 0%, rgb(204, 113, 199) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
 .electric:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(224, 210, 7) 50%, white 100%) repeat 0% 0% / 300% 100%;
