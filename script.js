@@ -1,5 +1,10 @@
 "use strict";
 
+// ? VAriables
+const main = document.querySelector("main");
+const buttonAdd = document.querySelector(".add");
+let accountBalance = 0;
+
 const checkType = (type, card) => {
   switch (type) {
     case "fire":
@@ -46,7 +51,7 @@ const checkType = (type, card) => {
   }
 };
 
-const fetchNewPokemon = (id) => {
+const fetchNewPokemon = (id, place, info) => {
   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then((response) => response.json())
     .then((data) => {
@@ -68,7 +73,8 @@ const fetchNewPokemon = (id) => {
       </div>
       </div>`;
       console.log(data);
-      main.appendChild(newPokemonCard);
+      info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
+      place.appendChild(newPokemonCard);
       VanillaTilt.init(document.querySelectorAll(".pokemon__card")),
         {
           glare: true,
@@ -79,15 +85,25 @@ const fetchNewPokemon = (id) => {
       console.error(error);
     });
 };
-const main = document.querySelector("main");
-const buttonAdd = document.querySelector(".add");
+
 buttonAdd.addEventListener("click", () => {
   const random = Math.floor(Math.random() * 149 + 1);
-  fetchNewPokemon(random);
+  fetchNewPokemon(random, main);
 });
 buttonAdd.addEventListener("pointerover", () => {
   buttonAdd.src = "logo2.png";
 });
 buttonAdd.addEventListener("pointerleave", () => {
   buttonAdd.src = "logo.png";
+});
+
+// ! Unboxing pokemon ! //
+const basicBox = document.querySelector("#box-basic");
+const openingContainer = document.querySelector(".box-opening");
+const messageInfo = document.querySelector(".info");
+
+basicBox.addEventListener("click", () => {
+  const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
+  const random = basicPokemons.at(Math.random() * basicPokemons.length);
+  fetchNewPokemon(random, openingContainer, messageInfo);
 });
