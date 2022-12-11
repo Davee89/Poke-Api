@@ -17,7 +17,6 @@ html {
   box-sizing: border-box;
   font-size: 62.5%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  background: linear-gradient(silver 0%, gold 50%, rgb(190, 58, 58) 100%) no-repeat;
 }
 body {
   margin: 0 auto;
@@ -82,6 +81,9 @@ body {
   z-index: 10;
   background: linear-gradient(white 0%, rgb(221, 198, 198) 100%);
 }
+.transition {
+  transition: 1s;
+}
 .pokemon__image {
   background-color: white;
   display: grid;
@@ -90,6 +92,8 @@ body {
   border-radius: 1rem 1rem 0 0;
   grid-area: image;
   border-bottom: 1px solid silver;
+  transition: 1s;
+  z-index: 10;
 }
 .pokemon__image img {
   max-width: 30rem;
@@ -101,10 +105,12 @@ body {
   text-align: center;
   font-size: 2rem;
   grid-area: title;
+  transition: 2s;
 }
 .pokemon__type {
   text-align: center;
   grid-area: type;
+  transition: 1s;
 }
 .pokemon__stats {
   padding: 0;
@@ -117,6 +123,7 @@ body {
     "sp-attack sp-def speed";
   border-radius: 1rem;
   grid-template-rows: 1fr 1fr;
+  transition: 1s;
 }
 .pokemon__stats div {
   display: flex;
@@ -183,14 +190,25 @@ body {
     background-position: 0% 50%;
   }
 }
-.animated:hover::after {
+.animated:hover:after {
   content: "";
   position: absolute;
-  inset: -3px;
+  inset: -1rem;
   animation: animated 6s linear infinite;
   z-index: -2;
   border-radius: 1rem;
   filter: blur(0.5rem);
+}
+
+.animated-start::after {
+  content: "";
+  position: absolute;
+  inset: -1.5rem;
+  animation: animated 6s linear infinite;
+  z-index: -1;
+  border-radius: 1rem;
+  filter: blur(0.5rem);
+  background: linear-gradient(45deg, white 0%, rgb(201, 155, 3) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
 
 /* ! COLOR OF POKEMON TYPE - Connected with switch ! */
@@ -240,8 +258,42 @@ body {
   background: linear-gradient(45deg, white 0%, rgb(70, 65, 65) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
 
+.hidden div,
+.hidden h2,
+.hidden p {
+  visibility: hidden;
+}
 /*** SHOP STYLING ***/
 
+.coin {
+  width: 1.5rem;
+}
+.single-product {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 2rem;
+  border: silver 0.2rem solid;
+}
+.pricetag {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: silver 0.2rem solid;
+}
+.pricetag p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: gold;
+}
+.pokeball {
+  padding-top: 2rem;
+}
 .shop__main {
   box-sizing: border-box;
 }
@@ -251,6 +303,9 @@ body {
   align-items: center;
   text-transform: uppercase;
   background-color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  border-radius: 5rem;
 }
 .shop__items {
   display: flex;
@@ -260,17 +315,40 @@ body {
 .shop__items a {
   text-decoration: none;
   color: black;
-  padding: 1rem;
+  padding: 3rem;
+}
+.shop__nav p {
+  display: flex;
+  align-items: center;
 }
 #balance {
+  padding: 0.5rem;
+  color: gold;
+}
+#balance + .coin {
   margin-right: 1rem;
-  padding: 1rem;
+  width: 2rem;
+}
+#shop__cards {
+  padding: 5rem 0;
 }
 #items {
   display: none;
 }
+#items p {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: 700;
+}
 #pokeballs {
   display: none;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+}
+#pokeballs div img {
+  aspect-ratio: 2/2;
+  max-width: 200px;
+  max-height: 200px;
 }
 #box-opening {
   display: none;

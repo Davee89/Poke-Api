@@ -9,11 +9,11 @@
   </head>
   <body>
     <header id="header">
-      <img class="add" id="logo" src="logo.png" alt="logo" />
+      <img class="add" id="logo" src="/images/logo.png" alt="logo" />
       <ul id="nav">
         <li><a href="index.html">Pokemons</a></li>
         <li><a href="">Your collection</a></li>
-        <li><a href="shop.html">Shop</a></li>
+        <li><a id="shop-link" href="shop.html">Shop</a></li>
         <li><a href="">Instructions</a></li>
       </ul>
     </header>
@@ -24,13 +24,40 @@
           <a href="">Pokeballs</a>
           <a href="">Items</a>
         </div>
-        <p id="balance">Your balance: <span>0</span></p>
+        <p>Your balance: <span id="balance">0</span><img class="coin" src="/images/pokeCoin.ico" alt="" /></p>
       </nav>
       <div id="shop__cards">
         <div id="pokeballs">
-          <button id="box-basic">Losuj Basic</button>
-          <button id="box-advanced">Losuj Advanced</button>
-          <button id="box-legendary">Losuj Legendary</button>
+          <div class="single-product">
+            <div class="pricetag">
+              <p>
+                Basic <br />
+                PokeBox
+              </p>
+              <p class="price">20<img class="coin" src="/images/pokeCoin.ico" alt="" /></p>
+            </div>
+            <img id="box-basic" class="pokeball" src="/images/pokeball-basic.png" alt="" />
+          </div>
+          <div class="single-product">
+            <div class="pricetag">
+              <p>
+                Advanced <br />
+                PokeBox
+              </p>
+              <p class="price">40<img class="coin" src="/images/pokeCoin.ico" alt="" /></p>
+            </div>
+            <img id="box-advanced" class="pokeball" src="images/pokeball-advanced.png" alt="" />
+          </div>
+          <div class="single-product">
+            <div class="pricetag">
+              <p>
+                Legendary <br />
+                PokeBox
+              </p>
+              <p class="price">60<img class="coin" src="/images/pokeCoin.ico" alt="" /></p>
+            </div>
+            <img id="box-legendary" class="pokeball" src="images/pokeball-legendary.png" alt="" />
+          </div>
         </div>
         <div id="items">
           <p>Coming Soon!</p>

@@ -1,10 +1,30 @@
 "use strict";
 
-// ? VAriables
+// ? Variables
 const main = document.querySelector("main");
 const buttonAdd = document.querySelector(".add");
-let accountBalance = 0;
+let accountBalance = 100;
+const balanceInfo = document.querySelector("#balance");
+const shopLink = document.querySelector("#shop-link");
 
+// ! Main functions for calculating account balance
+const updateBalance = () => {
+  if (window.localStorage.getItem("accountBalance")) {
+    accountBalance = JSON.parse(window.localStorage.getItem("accountBalance"));
+    balanceInfo.innerText = accountBalance;
+  } else balanceInfo.innerText = accountBalance;
+};
+updateBalance();
+
+const getLocalBalance = () => {
+  if (window.localStorage.getItem("accountBalance")) accountBalance = JSON.parse(window.localStorage.getItem("accountBalance"));
+};
+
+const setLocalBalance = () => {
+  window.localStorage.setItem("accountBalance", accountBalance);
+};
+
+// ! Displaying type - background //
 const displayType = (type, card) => {
   switch (type) {
     case "fire":
@@ -62,24 +82,12 @@ const fetchNewPokemon = (id, place, info) => {
     .then((response) => response.json())
     .then((data) => {
       const newPokemonCard = document.createElement("div");
-      newPokemonCard.classList.add("pokemon__card", "animated", "red");
+      newPokemonCard.classList.add("pokemon__card", "animated", "transition");
       displayType(data.types[0].type.name, newPokemonCard);
-      newPokemonCard.setAttribute("data-tilt", "");
-      newPokemonCard.innerHTML = `<div class= 'pokemon__image'>
-      <img src="${data.sprites.other.dream_world.front_default}" /></div>
-      <h2 class = 'pokemon__name'>${data.name.toUpperCase()}</h2>
-      <p class = 'pokemon__type'>TYPE: ${data.types[0].type.name.toUpperCase()}</p>
-      <div class = "pokemon__stats">
-      <div class = 'hp'>HP: ${data.stats[0].base_stat}</div>
-      <div class = 'attack'>Attack: ${data.stats[1].base_stat}</div>
-      <div class = 'def'>Defense: ${data.stats[2].base_stat}</div>
-      <div class = 'sp-attack'>Sp. Att: ${data.stats[3].base_stat}</div>
-      <div class = 'sp-def'>Sp. Def: ${data.stats[4].base_stat}</div>
-      <div class = 'speed'>Speed: ${data.stats[5].base_stat}</div>
-      </div>
-      </div>`;
-      console.log(data);
+
       if (info) info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
+      newPokemonCard.style.width = "0rem";
+      newPokemonCard.style.height = "0rem";
 
       place.appendChild(newPokemonCard);
       VanillaTilt.init(document.querySelectorAll(".pokemon__card")),
@@ -87,22 +95,43 @@ const fetchNewPokemon = (id, place, info) => {
           glare: true,
           scale: 1.2,
         };
+
+      requestAnimationFrame(() =>
+        setTimeout(() => {
+          newPokemonCard.style.width = "30rem";
+          newPokemonCard.style.height = "40rem";
+          newPokemonCard.classList.add("hidden");
+          setTimeout(() => {
+            newPokemonCard.setAttribute("data-tilt", "");
+            newPokemonCard.innerHTML = `<div class= 'pokemon__image'>
+            <img src="${data.sprites.other.dream_world.front_default}" /></div>
+            <h2 class = 'pokemon__name'>${data.name.toUpperCase()}</h2>
+            <p class = 'pokemon__type'>TYPE: ${data.types[0].type.name.toUpperCase()}</p>
+            <div class = "pokemon__stats">
+            <div class = 'hp'>HP: ${data.stats[0].base_stat}</div>
+            <div class = 'attack'>Attack: ${data.stats[1].base_stat}</div>
+            <div class = 'def'>Defense: ${data.stats[2].base_stat}</div>
+            <div class = 'sp-attack'>Sp. Att: ${data.stats[3].base_stat}</div>
+            <div class = 'sp-def'>Sp. Def: ${data.stats[4].base_stat}</div>
+            <div class = 'speed'>Speed: ${data.stats[5].base_stat}</div>
+            </div>
+            </div>`;
+            setTimeout(() => {
+              newPokemonCard.classList.remove("hidden");
+              newPokemonCard.classList.remove("transition");
+            }, 1000);
+          });
+        })
+      );
     })
     .catch((error) => {
       console.log(error);
-      console.error(error);
     });
 };
 // ! Pokeball event ! //
 buttonAdd.addEventListener("click", () => {
   const random = Math.floor(Math.random() * 149 + 1);
   fetchNewPokemon(random, main);
-});
-buttonAdd.addEventListener("pointerover", () => {
-  buttonAdd.src = "logo2.png";
-});
-buttonAdd.addEventListener("pointerleave", () => {
-  buttonAdd.src = "logo.png";
 });
 
 // ! Unboxing pokemon ! //
@@ -114,6 +143,28 @@ const messageInfo = document.querySelector(".info");
 const collectionAdd = document.querySelector("#add-to-collection");
 const sellPokemon = document.querySelector("#sell");
 
+// ! Pokeball shop interactions
+
+advancedBox?.addEventListener("pointerover", () => {
+  advancedBox.src = "/images/pokeball-advanced-active.png";
+});
+advancedBox?.addEventListener("pointerleave", () => {
+  advancedBox.src = "/images/pokeball-advanced.png";
+});
+
+basicBox?.addEventListener("pointerover", () => {
+  basicBox.src = "/images/pokeball-basic-active.png";
+});
+basicBox?.addEventListener("pointerleave", () => {
+  basicBox.src = "/images/pokeball-basic.png";
+});
+
+legendaryBox?.addEventListener("pointerover", () => {
+  legendaryBox.src = "/images/pokeball-legendary-active.png";
+});
+legendaryBox?.addEventListener("pointerleave", () => {
+  legendaryBox.src = "/images/pokeball-legendary.png";
+});
 let collection = [];
 
 const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
@@ -126,17 +177,46 @@ const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 12
 
 const unBox = (boxName) => {
   const random = boxName.at(Math.random() * boxName.length);
-  if (!openingContainer.querySelector(".pokemon__card")) fetchNewPokemon(random, openingContainer, messageInfo);
+  if (!openingContainer.querySelector(".pokemon__card")) {
+    fetchNewPokemon(random, openingContainer, messageInfo);
+    openingContainer.style.display = "block";
+
+    switch (boxName.length) {
+      case 55:
+        getLocalBalance();
+        accountBalance -= 20;
+        setLocalBalance();
+        updateBalance();
+        break;
+
+      case 180:
+        getLocalBalance();
+        accountBalance -= 40;
+        setLocalBalance();
+        updateBalance();
+        break;
+
+      case 384:
+        getLocalBalance();
+        accountBalance -= 60;
+        setLocalBalance();
+        updateBalance();
+        break;
+
+      default:
+        console.log("Something went wrong with buying boxes!");
+    }
+  }
 };
 
-basicBox.addEventListener("click", unBox.bind(null, basicPokemons));
+basicBox?.addEventListener("click", unBox.bind(null, basicPokemons));
 
-advancedBox.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...advancedPokemons]));
+advancedBox?.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...advancedPokemons]));
 
-legendaryBox.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...basicPokemons, ...basicPokemons, ...advancedPokemons, ...advancedPokemons, ...legendaryPokemons]));
+legendaryBox?.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...basicPokemons, ...basicPokemons, ...advancedPokemons, ...advancedPokemons, ...legendaryPokemons]));
 
 // ! Adding to collection pokemon
-collectionAdd.addEventListener("click", (e) => {
+collectionAdd?.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
   const pokemonName = document.querySelector(".pokemon__card h2").innerText.toLowerCase();
@@ -147,34 +227,28 @@ collectionAdd.addEventListener("click", (e) => {
   messageInfo.innerText = "";
 });
 // ! Selling pokemons ! //
-sellPokemon.addEventListener("click", (e) => {
+sellPokemon?.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
   if (pokemonCard) {
-    if (window.localStorage.getItem("accountBalance")) accountBalance = JSON.parse(window.localStorage.getItem("accountBalance"));
+    getLocalBalance();
     accountBalance += 10;
     pokemonCard.remove();
-    window.localStorage.setItem("accountBalance", accountBalance);
+    setLocalBalance();
     messageInfo.innerText = "";
+    updateBalance();
   }
 });
 
 // ? SHOP CARDS
-const pokeballs = document.querySelector("#pokeballs");
-const items = document.querySelector("#items");
-const shopCards = document.querySelectorAll("#shop__cards div");
 const shopItems = document.querySelector(".shop__items");
 
-const showCard = (e) => {
-  const card = (e.target.name.style.display = "block");
-};
-
-shopItems.addEventListener("click", (e) => {
+shopItems?.addEventListener("click", (e) => {
   e.preventDefault();
   const card = e.target.closest("a")?.innerText.toLowerCase();
   if (card) {
     shopItems.querySelectorAll("a").forEach((element) => {
-      element.innerText.toLowerCase() === card ? (document.querySelector(`#${card}`).style.display = "block") : (document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none");
+      element.innerText.toLowerCase() === card ? (document.querySelector(`#${card}`).style.display = "grid") : (document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none");
     });
   }
 });
