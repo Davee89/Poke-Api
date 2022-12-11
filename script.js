@@ -14,7 +14,7 @@ const updateBalance = () => {
     balanceInfo.innerText = accountBalance;
   } else balanceInfo.innerText = accountBalance;
 };
-updateBalance();
+if (balanceInfo) updateBalance();
 
 const getLocalBalance = () => {
   if (window.localStorage.getItem("accountBalance")) accountBalance = JSON.parse(window.localStorage.getItem("accountBalance"));
@@ -77,15 +77,14 @@ const displayType = (type, card) => {
   }
 };
 
-const fetchNewPokemon = (id, place, info) => {
+const fetchNewPokemon = (id, place, info, timeout) => {
   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then((response) => response.json())
     .then((data) => {
       const newPokemonCard = document.createElement("div");
       newPokemonCard.classList.add("pokemon__card", "animated", "transition");
       displayType(data.types[0].type.name, newPokemonCard);
-
-      if (info) info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
+      if (info) info.innerText = "Let's see what you got this time.";
       newPokemonCard.style.width = "0rem";
       newPokemonCard.style.height = "0rem";
 
@@ -101,7 +100,9 @@ const fetchNewPokemon = (id, place, info) => {
           newPokemonCard.style.width = "30rem";
           newPokemonCard.style.height = "40rem";
           newPokemonCard.classList.add("hidden");
+          if (info) info.innerText = "Let's see what you got this time..";
           setTimeout(() => {
+            if (info) info.innerText = "Let's see what you got this time...";
             newPokemonCard.setAttribute("data-tilt", "");
             newPokemonCard.innerHTML = `<div class= 'pokemon__image'>
             <img src="${data.sprites.other.dream_world.front_default}" /></div>
@@ -117,17 +118,28 @@ const fetchNewPokemon = (id, place, info) => {
             </div>
             </div>`;
             setTimeout(() => {
+              if (info) info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
               newPokemonCard.classList.remove("hidden");
               newPokemonCard.classList.remove("transition");
-            }, 1000);
-          });
-        })
+            }, timeout);
+          }, timeout);
+        }, timeout)
       );
     })
     .catch((error) => {
       console.log(error);
     });
 };
+setTimeout(() => {
+  for (let i = 1; i <= 150; i++) {
+    fetchNewPokemon(i, document.querySelector(".index__main"));
+    document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.add("hidden"));
+  }
+  setTimeout(() => {
+    document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.remove("hidden"));
+  }, 2000);
+});
+
 // ! Pokeball event ! //
 buttonAdd.addEventListener("click", () => {
   const random = Math.floor(Math.random() * 149 + 1);
@@ -139,6 +151,7 @@ const basicBox = document.querySelector("#box-basic");
 const advancedBox = document.querySelector("#box-advanced");
 const legendaryBox = document.querySelector("#box-legendary");
 const openingContainer = document.querySelector("#box-opening");
+const drawnPokemonContainer = document.querySelector(".result");
 const messageInfo = document.querySelector(".info");
 const collectionAdd = document.querySelector("#add-to-collection");
 const sellPokemon = document.querySelector("#sell");
@@ -178,8 +191,8 @@ const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 12
 const unBox = (boxName) => {
   const random = boxName.at(Math.random() * boxName.length);
   if (!openingContainer.querySelector(".pokemon__card")) {
-    fetchNewPokemon(random, openingContainer, messageInfo);
-    openingContainer.style.display = "block";
+    fetchNewPokemon(random, drawnPokemonContainer, messageInfo, 1000);
+    openingContainer.style.display = "flex";
 
     switch (boxName.length) {
       case 55:
@@ -225,6 +238,7 @@ collectionAdd?.addEventListener("click", (e) => {
   window.localStorage.setItem("userPokemonsCollection", JSON.stringify(collection));
   pokemonCard.remove();
   messageInfo.innerText = "";
+  openingContainer.style.display = "none";
 });
 // ! Selling pokemons ! //
 sellPokemon?.addEventListener("click", (e) => {
@@ -237,6 +251,7 @@ sellPokemon?.addEventListener("click", (e) => {
     setLocalBalance();
     messageInfo.innerText = "";
     updateBalance();
+    openingContainer.style.display = "none";
   }
 });
 

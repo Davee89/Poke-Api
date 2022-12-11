@@ -16,7 +16,7 @@ html {
   padding: 0;
   box-sizing: border-box;
   font-size: 62.5%;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Caveat";
 }
 body {
   margin: 0 auto;
@@ -281,7 +281,7 @@ body {
   border-bottom: silver 0.2rem solid;
 }
 .pricetag p {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 500;
   padding: 0.5rem;
 }
@@ -352,4 +352,44 @@ body {
 }
 #box-opening {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.info {
+  font-size: 2rem;
+  font-weight: 600;
+  color: green;
+  text-shadow: 0.1rem 0.1rem 0.2rem black;
+}
+.result {
+  padding: 4rem;
+}
+.buttons__section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.buttons__section button {
+  font-family: "Caveat";
+  padding: 1.5rem;
+  max-width: 12rem;
+  text-transform: uppercase;
+  border: 0.2rem rgb(119, 8, 8) solid;
+  border-radius: 3rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0.1rem 0.1rem 0.2rem black;
+}
+#add-to-collection {
+  background: linear-gradient(360deg, rgb(131, 212, 131) 0%, green 100%);
+}
+#sell {
+  background: linear-gradient(360deg, rgb(224, 136, 141) 0%, rgb(117, 5, 5) 100%);
+}
+#add-to-collection:hover {
+  background: linear-gradient(180deg, rgb(131, 212, 131) 0%, green 100%);
+}
+#sell:hover {
+  background: linear-gradient(180deg, rgb(224, 136, 141) 0%, rgb(117, 5, 5) 100%);
 }
