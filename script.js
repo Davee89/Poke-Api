@@ -5,7 +5,7 @@ const main = document.querySelector("main");
 const buttonAdd = document.querySelector(".add");
 let accountBalance = 0;
 
-const checkType = (type, card) => {
+const displayType = (type, card) => {
   switch (type) {
     case "fire":
       card.classList.add(`${type}`);
@@ -63,7 +63,7 @@ const fetchNewPokemon = (id, place, info) => {
     .then((data) => {
       const newPokemonCard = document.createElement("div");
       newPokemonCard.classList.add("pokemon__card", "animated", "red");
-      checkType(data.types[0].type.name, newPokemonCard);
+      displayType(data.types[0].type.name, newPokemonCard);
       newPokemonCard.setAttribute("data-tilt", "");
       newPokemonCard.innerHTML = `<div class= 'pokemon__image'>
       <img src="${data.sprites.other.dream_world.front_default}" /></div>
@@ -93,7 +93,7 @@ const fetchNewPokemon = (id, place, info) => {
       console.error(error);
     });
 };
-
+// ! Pokeball event ! //
 buttonAdd.addEventListener("click", () => {
   const random = Math.floor(Math.random() * 149 + 1);
   fetchNewPokemon(random, main);
@@ -109,7 +109,7 @@ buttonAdd.addEventListener("pointerleave", () => {
 const basicBox = document.querySelector("#box-basic");
 const advancedBox = document.querySelector("#box-advanced");
 const legendaryBox = document.querySelector("#box-legendary");
-const openingContainer = document.querySelector(".box-opening");
+const openingContainer = document.querySelector("#box-opening");
 const messageInfo = document.querySelector(".info");
 const collectionAdd = document.querySelector("#add-to-collection");
 const sellPokemon = document.querySelector("#sell");
@@ -122,10 +122,14 @@ const advancedPokemons = [2, 5, 8, 11, 12, 14, 15, 18, 17, 20, 22, 24, 26, 28, 3
 
 const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150];
 
+// ! Function for unboxing ! //
+
 const unBox = (boxName) => {
   const random = boxName.at(Math.random() * boxName.length);
   if (!openingContainer.querySelector(".pokemon__card")) fetchNewPokemon(random, openingContainer, messageInfo);
 };
+
+basicBox.addEventListener("click", unBox.bind(null, basicPokemons));
 
 advancedBox.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...advancedPokemons]));
 
@@ -142,7 +146,7 @@ collectionAdd.addEventListener("click", (e) => {
   pokemonCard.remove();
   messageInfo.innerText = "";
 });
-
+// ! Selling pokemons ! //
 sellPokemon.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
@@ -152,5 +156,25 @@ sellPokemon.addEventListener("click", (e) => {
     pokemonCard.remove();
     window.localStorage.setItem("accountBalance", accountBalance);
     messageInfo.innerText = "";
+  }
+});
+
+// ? SHOP CARDS
+const pokeballs = document.querySelector("#pokeballs");
+const items = document.querySelector("#items");
+const shopCards = document.querySelectorAll("#shop__cards div");
+const shopItems = document.querySelector(".shop__items");
+
+const showCard = (e) => {
+  const card = (e.target.name.style.display = "block");
+};
+
+shopItems.addEventListener("click", (e) => {
+  e.preventDefault();
+  const card = e.target.closest("a")?.innerText.toLowerCase();
+  if (card) {
+    shopItems.querySelectorAll("a").forEach((element) => {
+      element.innerText.toLowerCase() === card ? (document.querySelector(`#${card}`).style.display = "block") : (document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none");
+    });
   }
 });

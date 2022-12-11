@@ -17,12 +17,28 @@
         <li><a href="">Instructions</a></li>
       </ul>
     </header>
-    <main>
-      <button id="box-basic">Losuj Basic</button>
-      <button id="box-advanced">Losuj Advanced</button>
-      <button id="box-legendary">Losuj Legendary</button>
-      <div class="box-opening">
+    <main class="shop__main">
+      <nav class="shop__nav">
+        <div></div>
+        <div class="shop__items">
+          <a href="">Pokeballs</a>
+          <a href="">Items</a>
+        </div>
+        <p id="balance">Your balance: <span>0</span></p>
+      </nav>
+      <div id="shop__cards">
+        <div id="pokeballs">
+          <button id="box-basic">Losuj Basic</button>
+          <button id="box-advanced">Losuj Advanced</button>
+          <button id="box-legendary">Losuj Legendary</button>
+        </div>
+        <div id="items">
+          <p>Coming Soon!</p>
+        </div>
+      </div>
+      <div id="box-opening">
         <p class="info">Wynik losowania</p>
+        <div class="result"></div>
         <a id="add-to-collection" href="">Add to your collection</a>
         <a id="sell" href="">Sell pokemon</a>
       </div>

@@ -1,6 +1,16 @@
+/*! B         !*/
+/*! L - F - N !*/
+/*! A - O - O !*/
+/*! N - R - W !*/
+/*! K         !*/
+
+/* ? VARIABLES ? */
 :root {
   --psychic: rgb(139, 66, 207);
 }
+
+/* ? DEFAULT STYLING ? */
+
 html {
   margin: 0;
   padding: 0;
@@ -44,13 +54,17 @@ body {
 #nav a {
   text-decoration: none;
 }
-#main {
+
+/* * INDEX STYLING * */
+.index__main {
   display: flex;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 2rem;
 }
+
+/* ! POKEMON CARD STYLING */
 .pokemon__card {
   display: grid;
   grid-template-areas:
@@ -179,7 +193,7 @@ body {
   filter: blur(0.5rem);
 }
 
-/* ! COLOR OF POKEMON TYPE ! */
+/* ! COLOR OF POKEMON TYPE - Connected with switch ! */
 .fire:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(189, 15, 15) 50%, white 100%) repeat 0% 0% / 300% 100%;
 }
@@ -224,4 +238,40 @@ body {
 }
 .rock:hover::after {
   background: linear-gradient(45deg, white 0%, rgb(70, 65, 65) 50%, white 100%) repeat 0% 0% / 300% 100%;
+}
+
+/*** SHOP STYLING ***/
+
+.shop__main {
+  box-sizing: border-box;
+}
+.shop__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  background-color: white;
+}
+.shop__items {
+  display: flex;
+  justify-content: space-around;
+  gap: 10rem;
+}
+.shop__items a {
+  text-decoration: none;
+  color: black;
+  padding: 1rem;
+}
+#balance {
+  margin-right: 1rem;
+  padding: 1rem;
+}
+#items {
+  display: none;
+}
+#pokeballs {
+  display: none;
+}
+#box-opening {
+  display: none;
 }
