@@ -135,7 +135,7 @@ const fetchNewPokemon = (id, place, info, timeout) => {
 };
 setTimeout(() => {
   for (let i = 1; i <= 150; i++) {
-    fetchNewPokemon(i, document.querySelector(".index__main"));
+    fetchNewPokemon(i, document.querySelector(".pokedex__main"));
     document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.add("hidden"));
   }
   setTimeout(() => {
@@ -260,7 +260,13 @@ shopItems?.addEventListener("click", (e) => {
   const card = e.target.closest("a")?.innerText.toLowerCase();
   if (card) {
     shopItems.querySelectorAll("a").forEach((element) => {
-      element.innerText.toLowerCase() === card ? (document.querySelector(`#${card}`).style.display = "grid") : (document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none");
+      if (element.innerText.toLowerCase() === card) {
+        document.querySelector(`#${card}`).style.display = "grid";
+        element.classList.add("active");
+      } else {
+        document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none";
+        element.classList.remove("active");
+      }
     });
   }
 });

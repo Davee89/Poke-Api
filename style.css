@@ -24,6 +24,10 @@ body {
   min-height: 100vh;
   background: linear-gradient(silver 0%, gold 50%, rgb(190, 58, 58) 100%) no-repeat;
 }
+main {
+  font-size: 2rem;
+  text-align: center;
+}
 #header {
   display: flex;
   justify-content: space-between;
@@ -47,17 +51,25 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 5rem;
-  text-shadow: 1px 1px 2px rgb(202, 6, 6);
 }
 #nav li {
   list-style-type: none;
 }
+#nav a:hover {
+  text-shadow: 0.1rem 0.1rem 0.1rem rgb(104, 7, 7);
+}
 #nav a {
   text-decoration: none;
+  color: black;
 }
 
-/* * INDEX STYLING * */
-.index__main {
+/* * Pokedex STYLING * */
+h1 {
+  font-size: 5rem;
+  text-align: center;
+  letter-spacing: 1rem;
+}
+.pokedex__main {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -335,6 +347,9 @@ body {
   color: black;
   padding: 3rem;
 }
+.active {
+  text-shadow: 0.1rem 0.1rem 0.1rem rgb(104, 7, 7);
+}
 .shop__nav p {
   display: flex;
   align-items: center;
@@ -351,10 +366,14 @@ body {
 #shop__cards {
   padding: 5rem 0;
 }
-#items {
+#potions,
+#boosts,
+#pokecoins {
   display: none;
 }
-#items p {
+#potions p,
+#boosts p,
+#pokecoins p {
   font-size: 4rem;
   text-align: center;
   font-weight: 700;
