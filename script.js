@@ -87,16 +87,17 @@ const fetchNewPokemon = (id, place, info, timeout) => {
       if (info) info.innerText = "Let's see what you got this time.";
       newPokemonCard.style.width = "0rem";
       newPokemonCard.style.height = "0rem";
-
+      if (!place) return;
       place.appendChild(newPokemonCard);
       VanillaTilt.init(document.querySelectorAll(".pokemon__card")),
         {
           glare: true,
           scale: 1.2,
         };
-
+      if (openingContainer) openingContainer.style.minHeight = "65rem";
       requestAnimationFrame(() =>
         setTimeout(() => {
+          if (sellPokemon) sellPokemon.scrollIntoView({ behavior: "smooth" });
           newPokemonCard.style.width = "30rem";
           newPokemonCard.style.height = "40rem";
           newPokemonCard.classList.add("hidden");
@@ -117,13 +118,15 @@ const fetchNewPokemon = (id, place, info, timeout) => {
             <div class = 'speed'>Speed: ${data.stats[5].base_stat}</div>
             </div>
             </div>`;
+            newPokemonCard.classList.add("rotate-vert-center");
             setTimeout(() => {
               if (info) info.innerText = `Congratulations! You drew ${data.name.replace(data.name[0], data.name[0].toUpperCase())}`;
               newPokemonCard.classList.remove("hidden");
               newPokemonCard.classList.remove("transition");
-            }, timeout);
+              newPokemonCard.classList.remove("rotate-vert-center");
+            }, timeout * 2);
           }, timeout);
-        }, timeout)
+        })
       );
     })
     .catch((error) => {
@@ -138,12 +141,6 @@ setTimeout(() => {
   setTimeout(() => {
     document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.remove("hidden"));
   }, 2000);
-});
-
-// ! Pokeball event ! //
-buttonAdd.addEventListener("click", () => {
-  const random = Math.floor(Math.random() * 149 + 1);
-  fetchNewPokemon(random, main);
 });
 
 // ! Unboxing pokemon ! //
