@@ -94,6 +94,7 @@ h1 {
   margin: 0;
   z-index: 10;
   background: linear-gradient(white 0%, rgb(221, 198, 198) 100%);
+  cursor: pointer;
 }
 .transition {
   transition: 1s;
@@ -387,6 +388,7 @@ h1 {
   aspect-ratio: 2/2;
   max-width: 200px;
   max-height: 200px;
+  cursor: pointer;
 }
 #box-opening {
   display: none;
@@ -395,13 +397,13 @@ h1 {
   align-items: center;
 }
 .info {
-  font-size: 2rem;
+  font-size: 3.5rem;
   font-weight: 600;
   color: green;
   text-shadow: 0.1rem 0.1rem 0.2rem black;
 }
 .result {
-  padding: 4rem;
+  padding: 2.5rem;
 }
 .buttons__section {
   display: flex;
@@ -418,6 +420,7 @@ h1 {
   font-weight: 600;
   color: white;
   text-shadow: 0.1rem 0.1rem 0.2rem black;
+  cursor: pointer;
 }
 #add-to-collection {
   background: linear-gradient(360deg, rgb(131, 212, 131) 0%, green 100%);
@@ -430,6 +433,76 @@ h1 {
 }
 #sell:hover {
   background: linear-gradient(180deg, rgb(224, 136, 141) 0%, rgb(117, 5, 5) 100%);
+}
+
+/* ! Your Collection tab styling */
+
+.collection__main {
+  display: flex;
+  flex-direction: column;
+}
+.collection__sort {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: baseline;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+.collection__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#refresh {
+  padding: 0;
+  align-self: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 2.5rem;
+}
+#refresh img {
+  max-width: 4rem;
+  position: relative;
+  top: 3px;
+  transition: 1s;
+  object-fit: cover;
+}
+#refresh img:hover {
+  transform: rotate(360deg);
+}
+.collection__nav button {
+  padding: 1rem;
+  border: 0.1rem solid white;
+  border-radius: 2rem;
+  min-width: 5rem;
+  font-family: "Caveat";
+  font-size: 2rem;
+  background-color: white;
+  cursor: pointer;
+}
+.collection__nav button:hover,
+.collection__sort-container div a:hover {
+  opacity: 0.5;
+}
+
+.collection__sort-container div {
+  display: none;
+  padding-bottom: 2rem;
+  gap: 1rem;
+}
+.collection__sort-container div a {
+  padding: 1rem;
+  border: 0.1rem solid silver;
+  background-color: white;
+  border-radius: 3rem;
+  min-width: 5rem;
+  cursor: pointer;
+}
+#collection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 @media screen and (max-width: 670px) {

@@ -270,3 +270,41 @@ shopItems?.addEventListener("click", (e) => {
     });
   }
 });
+
+const collectionContainer = document.querySelector("#collection");
+let currentCollection = [];
+const refreshButton = document.querySelector("#refresh");
+
+const updateCollection = () => {
+  currentCollection = JSON.parse(window.localStorage.getItem("userPokemonsCollection"));
+  collectionContainer.querySelectorAll("div").forEach((element) => element.remove());
+  currentCollection.forEach((pokemon) => fetchNewPokemon(pokemon, collectionContainer));
+};
+updateCollection();
+
+refreshButton.addEventListener("click", () => {
+  updateCollection();
+});
+
+const sortLinks = document.querySelector(".collection__sort");
+
+sortLinks.addEventListener("click", (e) => {
+  const link = e.target.closest("button")?.innerText.toLowerCase();
+  console.log(link);
+  if (link) {
+    sortLinks.querySelectorAll("button").forEach((element) => {
+      if (element.innerText.toLowerCase() === link) {
+        if (document.querySelector(`.${link}`).classList.contains("active")) {
+          document.querySelector(`#${link}-sort`).style.display = "none";
+          element.classList.remove("active");
+        } else {
+          document.querySelector(`#${link}-sort`).style.display = "flex";
+          element.classList.add("active");
+        }
+      } else {
+        document.querySelector(`#${element.innerText.toLowerCase()}-sort`).style.display = "none";
+        element.classList.remove("active");
+      }
+    });
+  }
+});
