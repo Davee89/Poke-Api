@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
-  <body>
+  <body id="body">
     <header id="header">
       <img class="add" id="logo" src="/images/logo.png" alt="logo" />
       <ul id="nav">
-        <li><a href="index.html">Pokemons</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="pokedex.html">Pokedex</a></li>
         <li><a href="yourcollection.html">Your collection</a></li>
         <li><a href="arena.html">Arena</a></li>
@@ -23,7 +23,14 @@
         <li><a href="instructions.html">Instructions</a></li>
       </ul>
     </header>
-    <main class="index__main"></main>
+    <main class="index__main">
+      <h1 class="index__h1">Welcome in the Pokemon App!</h1>
+
+      <div class="index__welcome">
+        <div></div>
+        <div id="index__content"></div>
+      </div>
+    </main>
     <footer></footer>
     <script src="script.js"></script>
     <script src="vanilla-tilt.min.js"></script>

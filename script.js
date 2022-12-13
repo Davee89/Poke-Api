@@ -6,6 +6,7 @@ const buttonAdd = document.querySelector(".add");
 let accountBalance = 100;
 const balanceInfo = document.querySelector("#balance");
 const shopLink = document.querySelector("#shop-link");
+const homeContent = document.querySelector("#index__content");
 
 // ! Main functions for calculating account balance
 const updateBalance = () => {
@@ -142,6 +143,9 @@ setTimeout(() => {
     document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.remove("hidden"));
   }, 2000);
 });
+
+fetchNewPokemon(6, homeContent);
+fetchNewPokemon(9, homeContent);
 
 // ! Unboxing pokemon ! //
 const basicBox = document.querySelector("#box-basic");

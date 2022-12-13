@@ -64,6 +64,38 @@ main {
 }
 /* ? INDEX STYLING */
 
+.index__main {
+  background: url(/images/pikachu.png);
+  height: 80vh;
+  background-repeat: no-repeat;
+  background-position: left center;
+  position: relative;
+}
+.index__h1 {
+  text-align: end;
+  margin-top: 5rem;
+}
+.index__welcome {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 60vh;
+  align-items: center;
+  margin: 0;
+}
+
+#index__content {
+  height: 50vh;
+  border-radius: 5rem;
+  width: 55%;
+  border: 0.1em solid rgb(231, 180, 13);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 2rem;
+}
+
 /* * Pokedex STYLING * */
 h1 {
   font-size: 5rem;
@@ -228,7 +260,7 @@ h1 {
   }
 }
 
-.animated:hover:after {
+.animated:hover::after {
   content: "";
   position: absolute;
   inset: -1rem;
