@@ -384,6 +384,18 @@ h1 {
 .active {
   text-shadow: 0.1rem 0.1rem 0.1rem rgb(104, 7, 7);
 }
+.sortedUp {
+  background-image: url(/images/arrow-up.svg);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 2.5rem;
+}
+.sortedDown {
+  background-image: url(/images/arrow-down.svg);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 2.5rem;
+}
 .shop__nav p {
   display: flex;
   align-items: center;
@@ -539,6 +551,9 @@ h1 {
   border-radius: 3rem;
   min-width: 5rem;
   cursor: pointer;
+}
+#stats-sort a {
+  min-width: 10rem;
 }
 #collection {
   display: flex;

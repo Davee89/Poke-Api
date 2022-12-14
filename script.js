@@ -243,9 +243,9 @@ collectionAdd?.addEventListener("click", (e) => {
     stats: {
       hp: +document.querySelector(".hp span").innerText.toLowerCase(),
       attack: +document.querySelector(".attack span").innerText.toLowerCase(),
-      defense: +document.querySelector(".def span").innerText.toLowerCase(),
-      spAttack: +document.querySelector(".sp-attack span").innerText.toLowerCase(),
-      spDef: +document.querySelector(".sp-def span").innerText.toLowerCase(),
+      def: +document.querySelector(".def span").innerText.toLowerCase(),
+      spattack: +document.querySelector(".sp-attack span").innerText.toLowerCase(),
+      spdef: +document.querySelector(".sp-def span").innerText.toLowerCase(),
       speed: +document.querySelector(".speed span").innerText.toLowerCase(),
     },
   };
@@ -341,20 +341,84 @@ const sortByIdContainer = document.querySelector("#id-sort");
 const sortByStatsContainer = document.querySelector("#stats-sort");
 const sortByNameContainer = document.querySelector("#name-sort");
 
+const makeActive = (container, e) => {
+  container.querySelectorAll("a").forEach((button) => button.classList.remove("active"));
+  e.target.classList.add("active");
+};
+
 sortByIdContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.at(-1);
-    sortButton > 0 ? currentCollection.sort((a, b) => b.id - a.id) : currentCollection.sort((a, b) => a.id - b.id);
+    if (sortButton > 0) {
+      currentCollection.sort((a, b) => b.id - a.id);
+      makeActive(sortByIdContainer, e);
+    } else {
+      currentCollection.sort((a, b) => a.id - b.id);
+      makeActive(sortByIdContainer, e);
+    }
     simpleRefreshCollection();
   })
 );
+
+sortByNameContainer?.querySelectorAll("a").forEach((button) =>
+  button.addEventListener("click", (e) => {
+    const sortButton = e.target.innerText.at(0);
+    if (sortButton === "A") {
+      currentCollection.sort((a, b) => {
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
+      });
+      makeActive(sortByNameContainer, e);
+    } else {
+      currentCollection.sort((a, b) => {
+        if (b.name > a.name) return 1;
+        if (b.name < a.name) return -1;
+      });
+      makeActive(sortByNameContainer, e);
+    }
+    simpleRefreshCollection();
+  })
+);
+
+const sortByStats = (stat, e) => {
+  if (!e.target.classList.contains("sortedUp")) {
+    currentCollection.sort((a, b) => a.stats[stat] - b.stats[stat]);
+    sortByStatsContainer.querySelectorAll("a").forEach((button) => button.classList.remove("sortedDown", "sortedUp"));
+    e.target.classList.add("sortedUp");
+  } else {
+    currentCollection.sort((a, b) => b.stats[stat] - a.stats[stat]);
+    e.target.classList.remove("sortedUp");
+    e.target.classList.add("sortedDown");
+  }
+};
+
 sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.toLowerCase();
     console.log(sortButton);
+    console.log(e.target);
     switch (sortButton) {
-      case hp:
+      case "hp":
+        sortByStats(sortButton, e);
+        break;
+      case "attack":
+        sortByStats(sortButton, e);
+        break;
+      case "def":
+        sortByStats(sortButton, e);
+        break;
+      case "spattack":
+        sortByStats(sortButton, e);
+        break;
+      case "spdef":
+        sortByStats(sortButton, e);
+        break;
+      case "speed":
+        sortByStats(sortButton, e);
+        break;
+      default:
+        console.log("Oops something went wrong with sorting");
     }
-    // simpleRefreshCollection();
+    simpleRefreshCollection();
   })
 );
