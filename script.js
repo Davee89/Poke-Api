@@ -84,6 +84,7 @@ const fetchNewPokemon = (id, place, info, timeout) => {
     .then((data) => {
       const newPokemonCard = document.createElement("div");
       newPokemonCard.classList.add("pokemon__card", "animated", "transition");
+      newPokemonCard.setAttribute("data-id", `${data.id}`);
       displayType(data.types[0].type.name, newPokemonCard);
       if (info) info.innerText = "Let's see what you got this time.";
       newPokemonCard.style.width = "0rem";
@@ -95,6 +96,7 @@ const fetchNewPokemon = (id, place, info, timeout) => {
           glare: true,
           scale: 1.2,
         };
+
       if (openingContainer) openingContainer.style.minHeight = "65rem";
       requestAnimationFrame(() =>
         setTimeout(() => {
@@ -109,14 +111,14 @@ const fetchNewPokemon = (id, place, info, timeout) => {
             newPokemonCard.innerHTML = `<div class= 'pokemon__image'>
             <img src="${data.sprites.other.dream_world.front_default}" /></div>
             <h2 class = 'pokemon__name'>${data.name.toUpperCase()}</h2>
-            <p class = 'pokemon__type'>TYPE: ${data.types[0].type.name.toUpperCase()}</p>
+            <p class = 'pokemon__type'>${data.types[0].type.name.toUpperCase()}</p>
             <div class = "pokemon__stats">
-            <div class = 'hp'>HP: ${data.stats[0].base_stat}</div>
-            <div class = 'attack'>Attack: ${data.stats[1].base_stat}</div>
-            <div class = 'def'>Defense: ${data.stats[2].base_stat}</div>
-            <div class = 'sp-attack'>Sp. Att: ${data.stats[3].base_stat}</div>
-            <div class = 'sp-def'>Sp. Def: ${data.stats[4].base_stat}</div>
-            <div class = 'speed'>Speed: ${data.stats[5].base_stat}</div>
+            <div class = 'hp'>HP: <span>${data.stats[0].base_stat}</span></div>
+            <div class = 'attack'>Attack: <span>${data.stats[1].base_stat}</span></div>
+            <div class = 'def'>Defense: <span>${data.stats[2].base_stat}</span></div>
+            <div class = 'sp-attack'>Sp. Att: <span>${data.stats[3].base_stat}</span></div>
+            <div class = 'sp-def'>Sp. Def: <span>${data.stats[4].base_stat}</span></div>
+            <div class = 'speed'>Speed: <span>${data.stats[5].base_stat}</span></div>
             </div>
             </div>`;
             newPokemonCard.classList.add("rotate-vert-center");
@@ -233,9 +235,22 @@ legendaryBox?.addEventListener("click", unBox.bind(null, [...basicPokemons, ...b
 collectionAdd?.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
-  const pokemonName = document.querySelector(".pokemon__card h2").innerText.toLowerCase();
+  // const pokemonName = document.querySelector(".pokemon__card h2").innerText.toLowerCase();
+  const pokemonObject = {
+    id: +pokemonCard.dataset.id,
+    name: document.querySelector(".pokemon__card h2").innerText.toLowerCase(),
+    type: document.querySelector(".pokemon__card p").innerText.toLowerCase(),
+    stats: {
+      hp: +document.querySelector(".hp span").innerText.toLowerCase(),
+      attack: +document.querySelector(".attack span").innerText.toLowerCase(),
+      defense: +document.querySelector(".def span").innerText.toLowerCase(),
+      spAttack: +document.querySelector(".sp-attack span").innerText.toLowerCase(),
+      spDef: +document.querySelector(".sp-def span").innerText.toLowerCase(),
+      speed: +document.querySelector(".speed span").innerText.toLowerCase(),
+    },
+  };
   if (window.localStorage.getItem("userPokemonsCollection")) collection = JSON.parse(window.localStorage.getItem("userPokemonsCollection"));
-  collection.push(pokemonName);
+  collection.push(pokemonObject);
   window.localStorage.setItem("userPokemonsCollection", JSON.stringify(collection));
   pokemonCard.remove();
   messageInfo.innerText = "";
@@ -279,20 +294,26 @@ const collectionContainer = document.querySelector("#collection");
 let currentCollection = [];
 const refreshButton = document.querySelector("#refresh");
 
+const simpleRefreshCollection = () => {
+  if (currentCollection) {
+    collectionContainer?.querySelectorAll("div").forEach((element) => element.remove());
+    currentCollection?.forEach((pokemon) => fetchNewPokemon(pokemon.name, collectionContainer));
+  }
+};
+
 const updateCollection = () => {
   currentCollection = JSON.parse(window.localStorage.getItem("userPokemonsCollection"));
-  collectionContainer.querySelectorAll("div").forEach((element) => element.remove());
-  currentCollection.forEach((pokemon) => fetchNewPokemon(pokemon, collectionContainer));
+  simpleRefreshCollection();
 };
 updateCollection();
 
-refreshButton.addEventListener("click", () => {
-  updateCollection();
+refreshButton?.addEventListener("click", () => {
+  if (currentCollection) updateCollection();
 });
 
 const sortLinks = document.querySelector(".collection__sort");
 
-sortLinks.addEventListener("click", (e) => {
+sortLinks?.addEventListener("click", (e) => {
   const link = e.target.closest("button")?.innerText.toLowerCase();
   console.log(link);
   if (link) {
@@ -312,3 +333,28 @@ sortLinks.addEventListener("click", (e) => {
     });
   }
 });
+
+// ! SORTING MECHANISM ! //
+
+const sortByTypeContainer = document.querySelector("#type-sort");
+const sortByIdContainer = document.querySelector("#id-sort");
+const sortByStatsContainer = document.querySelector("#stats-sort");
+const sortByNameContainer = document.querySelector("#name-sort");
+
+sortByIdContainer?.querySelectorAll("a").forEach((button) =>
+  button.addEventListener("click", (e) => {
+    const sortButton = e.target.innerText.at(-1);
+    sortButton > 0 ? currentCollection.sort((a, b) => b.id - a.id) : currentCollection.sort((a, b) => a.id - b.id);
+    simpleRefreshCollection();
+  })
+);
+sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
+  button.addEventListener("click", (e) => {
+    const sortButton = e.target.innerText.toLowerCase();
+    console.log(sortButton);
+    switch (sortButton) {
+      case hp:
+    }
+    // simpleRefreshCollection();
+  })
+);
