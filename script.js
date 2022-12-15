@@ -7,6 +7,33 @@ let accountBalance = 100;
 const balanceInfo = document.querySelector("#balance");
 const shopLink = document.querySelector("#shop-link");
 const homeContent = document.querySelector("#index__content");
+const basicBox = document.querySelector("#box-basic");
+const advancedBox = document.querySelector("#box-advanced");
+const legendaryBox = document.querySelector("#box-legendary");
+const openingContainer = document.querySelector("#box-opening");
+const drawnPokemonContainer = document.querySelector(".result");
+const messageInfo = document.querySelector(".info");
+const collectionAdd = document.querySelector("#add-to-collection");
+const sellPokemon = document.querySelector("#sell");
+let collection = [];
+
+const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
+
+const advancedPokemons = [2, 5, 8, 11, 12, 14, 15, 18, 17, 20, 22, 24, 26, 28, 30, 33, 36, 38, 40, 42, 44, 47, 49, 51, 53, 55, 57, 59, 61, 64, 67, 70, 73, 75, 78, 80, 82, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 106, 107, 110, 112, 113, 115, 117, 119, 121, 122, 124, 127, 128, 131, 134, 135, 136, 137, 138, 140, 143, 147];
+
+const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150];
+
+const shopItems = document.querySelector(".shop__items");
+const collectionContainer = document.querySelector("#collection");
+let currentCollection = [];
+const refreshButton = document.querySelector("#refresh");
+const sortLinks = document.querySelector(".collection__sort");
+const buttonType = document.querySelector(".type");
+const filterByTypeContainer = document.querySelector("#type-sort");
+const sortByIdContainer = document.querySelector("#id-sort");
+const sortByStatsContainer = document.querySelector("#stats-sort");
+const sortByNameContainer = document.querySelector("#name-sort");
+const searchInput = document.querySelector("#search");
 
 // ! Main functions for calculating account balance
 const updateBalance = () => {
@@ -150,14 +177,6 @@ fetchNewPokemon(6, homeContent);
 fetchNewPokemon(9, homeContent);
 
 // ! Unboxing pokemon ! //
-const basicBox = document.querySelector("#box-basic");
-const advancedBox = document.querySelector("#box-advanced");
-const legendaryBox = document.querySelector("#box-legendary");
-const openingContainer = document.querySelector("#box-opening");
-const drawnPokemonContainer = document.querySelector(".result");
-const messageInfo = document.querySelector(".info");
-const collectionAdd = document.querySelector("#add-to-collection");
-const sellPokemon = document.querySelector("#sell");
 
 // ! Pokeball shop interactions
 
@@ -181,13 +200,6 @@ legendaryBox?.addEventListener("pointerover", () => {
 legendaryBox?.addEventListener("pointerleave", () => {
   legendaryBox.src = "/images/pokeball-legendary.png";
 });
-let collection = [];
-
-const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
-
-const advancedPokemons = [2, 5, 8, 11, 12, 14, 15, 18, 17, 20, 22, 24, 26, 28, 30, 33, 36, 38, 40, 42, 44, 47, 49, 51, 53, 55, 57, 59, 61, 64, 67, 70, 73, 75, 78, 80, 82, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 106, 107, 110, 112, 113, 115, 117, 119, 121, 122, 124, 127, 128, 131, 134, 135, 136, 137, 138, 140, 143, 147];
-
-const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150];
 
 // ! Function for unboxing ! //
 
@@ -272,7 +284,6 @@ sellPokemon?.addEventListener("click", (e) => {
 });
 
 // ? SHOP CARDS
-const shopItems = document.querySelector(".shop__items");
 
 shopItems?.addEventListener("click", (e) => {
   e.preventDefault();
@@ -290,20 +301,19 @@ shopItems?.addEventListener("click", (e) => {
   }
 });
 
-const collectionContainer = document.querySelector("#collection");
-let currentCollection = [];
-const refreshButton = document.querySelector("#refresh");
-
-const simpleRefreshCollection = () => {
-  if (currentCollection) {
+const simpleRefreshCollection = (collection) => {
+  if (collection) {
     collectionContainer?.querySelectorAll("div").forEach((element) => element.remove());
-    currentCollection?.forEach((pokemon) => fetchNewPokemon(pokemon.name, collectionContainer));
+    collection?.forEach((pokemon) => fetchNewPokemon(pokemon.name, collectionContainer));
   }
 };
 
 const updateCollection = () => {
   currentCollection = JSON.parse(window.localStorage.getItem("userPokemonsCollection"));
-  simpleRefreshCollection();
+  simpleRefreshCollection(currentCollection);
+  document.querySelectorAll("a").forEach((a) => a.classList.remove("active", "sortedUp", "sortedDown"));
+  document.querySelectorAll("button").forEach((button) => button.classList.remove("active"));
+  searchInput.value = "";
 };
 updateCollection();
 
@@ -311,7 +321,16 @@ refreshButton?.addEventListener("click", () => {
   if (currentCollection) updateCollection();
 });
 
-const sortLinks = document.querySelector(".collection__sort");
+buttonType.addEventListener("click", (e) => {
+  if (buttonType.classList.contains("active")) {
+    document.querySelector("#type-sort").style.display = "none";
+    buttonType.classList.remove("active");
+    updateCollection();
+  } else {
+    document.querySelector("#type-sort").style.display = "flex";
+    buttonType.classList.add("active");
+  }
+});
 
 sortLinks?.addEventListener("click", (e) => {
   const link = e.target.closest("button")?.innerText.toLowerCase();
@@ -322,6 +341,7 @@ sortLinks?.addEventListener("click", (e) => {
         if (document.querySelector(`.${link}`).classList.contains("active")) {
           document.querySelector(`#${link}-sort`).style.display = "none";
           element.classList.remove("active");
+          updateCollection();
         } else {
           document.querySelector(`#${link}-sort`).style.display = "flex";
           element.classList.add("active");
@@ -335,11 +355,6 @@ sortLinks?.addEventListener("click", (e) => {
 });
 
 // ! SORTING MECHANISM ! //
-
-const sortByTypeContainer = document.querySelector("#type-sort");
-const sortByIdContainer = document.querySelector("#id-sort");
-const sortByStatsContainer = document.querySelector("#stats-sort");
-const sortByNameContainer = document.querySelector("#name-sort");
 
 const makeActive = (container, e) => {
   container.querySelectorAll("a").forEach((button) => button.classList.remove("active"));
@@ -356,7 +371,8 @@ sortByIdContainer?.querySelectorAll("a").forEach((button) =>
       currentCollection.sort((a, b) => a.id - b.id);
       makeActive(sortByIdContainer, e);
     }
-    simpleRefreshCollection();
+    simpleRefreshCollection(currentCollection);
+    searchInput.value = "";
   })
 );
 
@@ -376,7 +392,8 @@ sortByNameContainer?.querySelectorAll("a").forEach((button) =>
       });
       makeActive(sortByNameContainer, e);
     }
-    simpleRefreshCollection();
+    simpleRefreshCollection(currentCollection);
+    searchInput.value = "";
   })
 );
 
@@ -395,8 +412,6 @@ const sortByStats = (stat, e) => {
 sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.toLowerCase();
-    console.log(sortButton);
-    console.log(e.target);
     switch (sortButton) {
       case "hp":
         sortByStats(sortButton, e);
@@ -419,6 +434,24 @@ sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
       default:
         console.log("Oops something went wrong with sorting");
     }
-    simpleRefreshCollection();
+    simpleRefreshCollection(currentCollection);
+    searchInput.value = "";
   })
 );
+
+filterByTypeContainer.querySelectorAll("a").forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const selectedButtonName = e.target.innerText.toLowerCase();
+    const filteredCollection = currentCollection.filter((pokemon) => pokemon.type === selectedButtonName);
+    collectionContainer?.querySelectorAll("div").forEach((element) => element.remove());
+    makeActive(filterByTypeContainer, e);
+    filteredCollection?.forEach((pokemon) => fetchNewPokemon(pokemon.name, collectionContainer));
+    searchInput.value = "";
+  });
+});
+
+searchInput.addEventListener("change", () => {
+  const inputValue = searchInput.value;
+  const filteredCollection = currentCollection.filter((pokemon) => pokemon.name.includes(inputValue));
+  simpleRefreshCollection(filteredCollection);
+});

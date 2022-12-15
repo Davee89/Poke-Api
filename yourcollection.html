@@ -27,9 +27,8 @@
     <main class="collection__main">
       <nav class="collection__nav">
         <div class="collection__sort">
-          <p>Sort by:</p>
+          <p>Sort all by:</p>
           <button class="button-sort id">Id</button>
-          <button class="button-sort type">Type</button>
           <button class="button-sort stats">Stats</button>
           <button class="button-sort name">Name</button>
         </div>
@@ -40,6 +39,27 @@
           <a>1 -> 150</a>
           <a>150 -> 1</a>
         </div>
+        <div id="stats-sort">
+          <a>HP</a>
+          <a>Attack</a>
+          <a>Def</a>
+          <a>SpAttack</a>
+          <a>SpDef</a>
+          <a>Speed</a>
+        </div>
+        <div id="name-sort">
+          <a>A -> Z</a>
+          <a>Z -> A</a>
+        </div>
+      </div>
+      <div class="collection__filter">
+        <p>Filter all by:</p>
+        <div class="filter__buttons">
+          <button class="button-sort type">Type</button>
+          <input id="search" type="text" />
+        </div>
+      </div>
+      <div class="collection__filter-container">
         <div id="type-sort">
           <a>Fire</a>
           <a>Water</a>
@@ -56,18 +76,6 @@
           <a>Fighting</a>
           <a>Ghost</a>
           <a>Dragon</a>
-        </div>
-        <div id="stats-sort">
-          <a>HP</a>
-          <a>Attack</a>
-          <a>Def</a>
-          <a>SpAttack</a>
-          <a>SpDef</a>
-          <a>Speed</a>
-        </div>
-        <div id="name-sort">
-          <a>A -> Z</a>
-          <a>Z -> A</a>
         </div>
       </div>
       <div id="collection"></div>
