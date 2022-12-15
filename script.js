@@ -105,6 +105,7 @@ const displayType = (type, card) => {
   }
 };
 
+// ! FETCHING SINGLE CARD
 const fetchNewPokemon = (id, place, info, timeout) => {
   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then((response) => response.json())
@@ -163,6 +164,7 @@ const fetchNewPokemon = (id, place, info, timeout) => {
       console.log(error);
     });
 };
+// ! FILLING POKEDEX WITH CARDS
 setTimeout(() => {
   for (let i = 1; i <= 150; i++) {
     fetchNewPokemon(i, document.querySelector(".pokedex__main"));
@@ -172,13 +174,11 @@ setTimeout(() => {
     document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.remove("hidden"));
   }, 2000);
 });
-
+// ! FILLING HOME PAGE WITH 2 CARDS
 fetchNewPokemon(6, homeContent);
 fetchNewPokemon(9, homeContent);
 
-// ! Unboxing pokemon ! //
-
-// ! Pokeball shop interactions
+// ! Pokeball shop animations
 
 advancedBox?.addEventListener("pointerover", () => {
   advancedBox.src = "/images/pokeball-advanced-active.png";
@@ -244,10 +244,10 @@ advancedBox?.addEventListener("click", unBox.bind(null, [...basicPokemons, ...ba
 legendaryBox?.addEventListener("click", unBox.bind(null, [...basicPokemons, ...basicPokemons, ...basicPokemons, ...basicPokemons, ...advancedPokemons, ...advancedPokemons, ...legendaryPokemons]));
 
 // ! Adding to collection pokemon
+
 collectionAdd?.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
-  // const pokemonName = document.querySelector(".pokemon__card h2").innerText.toLowerCase();
   const pokemonObject = {
     id: +pokemonCard.dataset.id,
     name: document.querySelector(".pokemon__card h2").innerText.toLowerCase(),
@@ -268,7 +268,9 @@ collectionAdd?.addEventListener("click", (e) => {
   messageInfo.innerText = "";
   openingContainer.style.display = "none";
 });
+
 // ! Selling pokemons ! //
+
 sellPokemon?.addEventListener("click", (e) => {
   e.preventDefault();
   const pokemonCard = document.querySelector(".pokemon__card");
@@ -301,6 +303,8 @@ shopItems?.addEventListener("click", (e) => {
   }
 });
 
+// ! Functions for refreshing collections
+
 const simpleRefreshCollection = (collection) => {
   if (collection) {
     collectionContainer?.querySelectorAll("div").forEach((element) => element.remove());
@@ -321,6 +325,9 @@ refreshButton?.addEventListener("click", () => {
   if (currentCollection) updateCollection();
 });
 
+// ! Events for displaying more advanced sorting/filtering
+
+// ? Filter
 buttonType.addEventListener("click", (e) => {
   if (buttonType.classList.contains("active")) {
     document.querySelector("#type-sort").style.display = "none";
@@ -332,6 +339,7 @@ buttonType.addEventListener("click", (e) => {
   }
 });
 
+// ? Sort
 sortLinks?.addEventListener("click", (e) => {
   const link = e.target.closest("button")?.innerText.toLowerCase();
   console.log(link);
@@ -356,11 +364,13 @@ sortLinks?.addEventListener("click", (e) => {
 
 // ! SORTING MECHANISM ! //
 
+// ? Function for which sorting/filtering is active
 const makeActive = (container, e) => {
   container.querySelectorAll("a").forEach((button) => button.classList.remove("active"));
   e.target.classList.add("active");
 };
 
+// ? SORT by ID
 sortByIdContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.at(-1);
@@ -376,6 +386,7 @@ sortByIdContainer?.querySelectorAll("a").forEach((button) =>
   })
 );
 
+// ? SORT by NAME
 sortByNameContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.at(0);
@@ -397,6 +408,7 @@ sortByNameContainer?.querySelectorAll("a").forEach((button) =>
   })
 );
 
+// ? Function for stat sorting
 const sortByStats = (stat, e) => {
   if (!e.target.classList.contains("sortedUp")) {
     currentCollection.sort((a, b) => a.stats[stat] - b.stats[stat]);
@@ -409,6 +421,7 @@ const sortByStats = (stat, e) => {
   }
 };
 
+// ? SORT by STATS
 sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
   button.addEventListener("click", (e) => {
     const sortButton = e.target.innerText.toLowerCase();
@@ -439,6 +452,7 @@ sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
   })
 );
 
+// ? Filter by Type
 filterByTypeContainer.querySelectorAll("a").forEach((button) => {
   button.addEventListener("click", (e) => {
     const selectedButtonName = e.target.innerText.toLowerCase();
@@ -450,8 +464,48 @@ filterByTypeContainer.querySelectorAll("a").forEach((button) => {
   });
 });
 
+// ? Search/Filter by writing letters to input
 searchInput.addEventListener("change", () => {
   const inputValue = searchInput.value;
   const filteredCollection = currentCollection.filter((pokemon) => pokemon.name.includes(inputValue));
   simpleRefreshCollection(filteredCollection);
+});
+
+// ! Opening card from collection in POP-UP ! //
+
+const overlay = document.querySelector(".overlay");
+const popCard = document.querySelector(".popCard");
+const popPlace = document.querySelector("#pop__place");
+const closeTabButton = document.querySelector(".close");
+const sellButtonInPop = document.querySelector("#sellPop");
+
+document.addEventListener("click", (e) => {
+  const target = e.target.closest(".pokemon__card");
+  const currentTab = e.target.closest(".collection__main");
+  if (target && currentTab && !popCard.classList.contains("popped")) {
+    fetchNewPokemon(target.dataset.id, popPlace);
+    overlay.classList.add("popped");
+    popCard.classList.add("popped");
+  }
+});
+
+const closePopUp = () => {
+  popPlace.querySelector(".pokemon__card").remove();
+  overlay.classList.remove("popped");
+  popCard.classList.remove("popped");
+};
+
+closeTabButton.addEventListener("click", closePopUp);
+overlay.addEventListener("click", closePopUp);
+
+sellButtonInPop.addEventListener("click", () => {
+  const pokemonCardId = popPlace.querySelector(".pokemon__card").dataset.id;
+  const soldPokemon = currentCollection.indexOf(currentCollection.find((pokemon) => pokemon.id == pokemonCardId));
+  currentCollection.splice(soldPokemon, 1);
+  window.localStorage.setItem("userPokemonsCollection", JSON.stringify(currentCollection));
+  simpleRefreshCollection(currentCollection);
+  getLocalBalance();
+  accountBalance += 10;
+  setLocalBalance();
+  closePopUp();
 });
