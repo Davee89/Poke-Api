@@ -16,6 +16,9 @@ const messageInfo = document.querySelector(".info");
 const collectionAdd = document.querySelector("#add-to-collection");
 const sellPokemon = document.querySelector("#sell");
 let collection = [];
+const hamburger = document.querySelector(".hamburger");
+const nav = document.querySelector("#nav");
+const header = document.querySelector("#header");
 
 const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 92, 96, 98, 100, 102, 104, 108, 109, 111, 114, 116, 118, 120, 129, 132, 133];
 
@@ -34,6 +37,22 @@ const sortByIdContainer = document.querySelector("#id-sort");
 const sortByStatsContainer = document.querySelector("#stats-sort");
 const sortByNameContainer = document.querySelector("#name-sort");
 const searchInput = document.querySelector("#search");
+
+// ! Hamburger mobile
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("mobile");
+  nav.classList.toggle("mobile");
+  header.classList.toggle("mobile");
+});
+
+nav.querySelectorAll("a").forEach((link) =>
+  link.addEventListener("click", () => {
+    hamburger.classList.remove("mobile");
+    nav.classList.remove("mobile");
+    header.classList.remove("mobile");
+  })
+);
 
 // ! Main functions for calculating account balance
 const updateBalance = () => {
@@ -317,7 +336,7 @@ const updateCollection = () => {
   simpleRefreshCollection(currentCollection);
   document.querySelectorAll("a").forEach((a) => a.classList.remove("active", "sortedUp", "sortedDown"));
   document.querySelectorAll("button").forEach((button) => button.classList.remove("active"));
-  searchInput.value = "";
+  if (searchInput) searchInput.value = "";
 };
 updateCollection();
 
@@ -328,7 +347,7 @@ refreshButton?.addEventListener("click", () => {
 // ! Events for displaying more advanced sorting/filtering
 
 // ? Filter
-buttonType.addEventListener("click", (e) => {
+buttonType?.addEventListener("click", (e) => {
   if (buttonType.classList.contains("active")) {
     document.querySelector("#type-sort").style.display = "none";
     buttonType.classList.remove("active");
@@ -453,7 +472,7 @@ sortByStatsContainer?.querySelectorAll("a").forEach((button) =>
 );
 
 // ? Filter by Type
-filterByTypeContainer.querySelectorAll("a").forEach((button) => {
+filterByTypeContainer?.querySelectorAll("a").forEach((button) => {
   button.addEventListener("click", (e) => {
     const selectedButtonName = e.target.innerText.toLowerCase();
     const filteredCollection = currentCollection.filter((pokemon) => pokemon.type === selectedButtonName);
@@ -465,7 +484,7 @@ filterByTypeContainer.querySelectorAll("a").forEach((button) => {
 });
 
 // ? Search/Filter by writing letters to input
-searchInput.addEventListener("change", () => {
+searchInput?.addEventListener("change", () => {
   const inputValue = searchInput.value;
   const filteredCollection = currentCollection.filter((pokemon) => pokemon.name.includes(inputValue));
   simpleRefreshCollection(filteredCollection);
@@ -495,10 +514,10 @@ const closePopUp = () => {
   popCard.classList.remove("popped");
 };
 
-closeTabButton.addEventListener("click", closePopUp);
-overlay.addEventListener("click", closePopUp);
+closeTabButton?.addEventListener("click", closePopUp);
+overlay?.addEventListener("click", closePopUp);
 
-sellButtonInPop.addEventListener("click", () => {
+sellButtonInPop?.addEventListener("click", () => {
   const pokemonCardId = popPlace.querySelector(".pokemon__card").dataset.id;
   const soldPokemon = currentCollection.indexOf(currentCollection.find((pokemon) => pokemon.id == pokemonCardId));
   currentCollection.splice(soldPokemon, 1);
