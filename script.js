@@ -3,7 +3,7 @@
 // ? Variables
 const main = document.querySelector("main");
 const buttonAdd = document.querySelector(".add");
-let accountBalance = 100;
+let accountBalance = 500;
 const balanceInfo = document.querySelector("#balance");
 const shopLink = document.querySelector("#shop-link");
 const homeContent = document.querySelector("#index__content");
