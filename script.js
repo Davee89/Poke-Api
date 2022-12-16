@@ -24,7 +24,7 @@ const basicPokemons = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 
 
 const advancedPokemons = [2, 5, 8, 11, 12, 14, 15, 18, 17, 20, 22, 24, 26, 28, 30, 33, 36, 38, 40, 42, 44, 47, 49, 51, 53, 55, 57, 59, 61, 64, 67, 70, 73, 75, 78, 80, 82, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 106, 107, 110, 112, 113, 115, 117, 119, 121, 122, 124, 127, 128, 131, 134, 135, 136, 137, 138, 140, 143, 147];
 
-const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150];
+const legendaryPokemons = [3, 6, 9, 31, 34, 45, 65, 68, 71, 76, 94, 123, 125, 126, 130, 139, 141, 142, 144, 145, 146, 148, 149, 150, 151];
 
 const shopItems = document.querySelector(".shop__items");
 const collectionContainer = document.querySelector("#collection");
@@ -185,7 +185,7 @@ const fetchNewPokemon = (id, place, info, timeout) => {
 };
 // ! FILLING POKEDEX WITH CARDS
 setTimeout(() => {
-  for (let i = 1; i <= 150; i++) {
+  for (let i = 1; i <= 151; i++) {
     fetchNewPokemon(i, document.querySelector(".pokedex__main"));
     document.querySelectorAll(".newPokemonCard").forEach((element) => element.classList.add("hidden"));
   }
@@ -222,37 +222,66 @@ legendaryBox?.addEventListener("pointerleave", () => {
 
 // ! Function for unboxing ! //
 
+// ? Function for deleting alert
+const hideAlert = () => {
+  if (document.querySelector("#shop__cards").querySelector(".alert")) document.querySelector("#shop__cards").querySelector(".alert").remove();
+};
+
+const showAlert = () => {
+  const newAlertMessege = document.createElement("p");
+  newAlertMessege.classList.add("alert");
+  newAlertMessege.innerText = "You can't afford to buy this box!";
+  hideAlert();
+  document.querySelector("#shop__cards").prepend(newAlertMessege);
+};
+
 const unBox = (boxName) => {
   const random = boxName.at(Math.random() * boxName.length);
-  if (!openingContainer.querySelector(".pokemon__card")) {
-    fetchNewPokemon(random, drawnPokemonContainer, messageInfo, 1000);
-    openingContainer.style.display = "flex";
 
+  if (!openingContainer.querySelector(".pokemon__card")) {
     switch (boxName.length) {
       case 55:
-        getLocalBalance();
-        accountBalance -= 20;
-        setLocalBalance();
-        updateBalance();
+        if (accountBalance >= 20) {
+          getLocalBalance();
+          accountBalance -= 20;
+          setLocalBalance();
+          updateBalance();
+        } else {
+          showAlert();
+          return;
+        }
         break;
 
       case 180:
-        getLocalBalance();
-        accountBalance -= 40;
-        setLocalBalance();
-        updateBalance();
+        if (accountBalance >= 40) {
+          getLocalBalance();
+          accountBalance -= 40;
+          setLocalBalance();
+          updateBalance();
+        } else {
+          showAlert();
+          return;
+        }
         break;
 
-      case 384:
-        getLocalBalance();
-        accountBalance -= 60;
-        setLocalBalance();
-        updateBalance();
+      case 385:
+        if (accountBalance >= 60) {
+          getLocalBalance();
+          accountBalance -= 60;
+          setLocalBalance();
+          updateBalance();
+        } else {
+          showAlert();
+          return;
+        }
         break;
 
       default:
         console.log("Something went wrong with buying boxes!");
     }
+    fetchNewPokemon(random, drawnPokemonContainer, messageInfo, 1000);
+    openingContainer.style.display = "flex";
+    hideAlert();
   }
 };
 
@@ -314,6 +343,7 @@ shopItems?.addEventListener("click", (e) => {
       if (element.innerText.toLowerCase() === card) {
         document.querySelector(`#${card}`).style.display = "grid";
         element.classList.add("active");
+        hideAlert();
       } else {
         document.querySelector(`#${element.innerText.toLowerCase()}`).style.display = "none";
         element.classList.remove("active");

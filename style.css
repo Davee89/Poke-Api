@@ -351,6 +351,13 @@ h1 {
 .coin {
   width: 1.5rem;
 }
+.coin.pc {
+  width: 5rem;
+  margin: 0.5rem;
+}
+.coins {
+  display: grid;
+}
 .single-product {
   background-color: white;
   padding: 1rem;
@@ -433,6 +440,7 @@ h1 {
 #shop__cards {
   padding: 5rem 0;
   background: url(/images/shop-background.jpg);
+  min-height: 100vh;
   height: fit-content;
   background-repeat: no-repeat;
   background-position: top center;
@@ -450,7 +458,8 @@ h1 {
   text-align: center;
   font-weight: 700;
 }
-#pokeboxes {
+#pokeboxes,
+#pokecoins {
   display: none;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
   grid-template-rows: minmax(35rem, 35rem);
@@ -570,8 +579,8 @@ h1 {
   opacity: 0.5;
 }
 
-.collection__sort-container div,
-.collection__filter-container div {
+#collection__sort-container div,
+#collection__filter-container div {
   display: none;
   padding: 1rem 0;
   gap: 1rem;
@@ -663,6 +672,15 @@ h1 {
 .popped {
   visibility: visible;
 }
+.alert {
+  font-size: 2rem;
+  color: rgb(177, 3, 3);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  position: relative;
+  top: 15rem;
+}
+
 @media screen and (max-width: 680px) {
   #pokeboxes {
     display: none;
@@ -712,13 +730,16 @@ h1 {
     justify-content: center;
   }
   #shop__cards {
-    padding: 10rem 0;
+    padding: 15rem 0;
     min-height: 65vh;
     height: max-content;
   }
   /* ? SHOP STYLING MOBILE */
   .shop__nav {
     justify-content: center;
+  }
+  .alert {
+    top: -15rem;
   }
   /* ? INDEX STYLING MOBILE */
 
