@@ -1,5 +1,4 @@
 "use strict";
-
 // ? Variables
 const main = document.querySelector("main");
 const buttonAdd = document.querySelector(".add");
